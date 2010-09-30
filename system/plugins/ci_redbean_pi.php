@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is a plugin to integrate the ReadBean library into the web framework
+ * This is a plugin to integrate the RedBean library into the web framework
  * CodeIgniter. It provides a class which your application's models can extend
- * to inherit the functionality needed to use the readbean library.
+ * to inherit the functionality needed to use the redbean library.
  *
  * Copyright (C) 2010 Florian Herlings
  *
@@ -44,7 +44,7 @@ spl_autoload_register('ci_redbean_pi_autoload');
 
 
 /**
- * This class wraps the readbean functionality. Every class that extends
+ * This class wraps the redbean functionality. Every class that extends
  * this class will be persisted in the database, when you use the class's
  * save method.
  *
@@ -54,12 +54,12 @@ spl_autoload_register('ci_redbean_pi_autoload');
 class RedbeanModel
 {
     /**
-     * Holds the readbean instance. The first constructor that is called
+     * Holds the redbean instance. The first constructor that is called
      * will instantiate the object, every other instance of every other
      * class that extends the class will have inherited this object.
      * @var RedBean_OODB
      */
-	protected static $redbeanInstance;
+  protected static $redbeanInstance;
 
 
     /**
@@ -67,7 +67,7 @@ class RedbeanModel
      * to the constructor, it will be automatically set.
      * @var string
      */
-	protected $className;
+  protected $className;
 
 
     /**
@@ -75,42 +75,42 @@ class RedbeanModel
      * the current database entry.
      * @var RedBean_OODBBean
      */
-	protected $readBeanObject;
+  protected $redBeanObject;
 
     /**
      * The database id of the current object. It is only available when
      * the object was correctly persisted to or loaded from the database.
      * @var integer
      */
-	protected $objectId;
+  protected $objectId;
 
 
     /**
      * Constructor.
      *
-     * @param RedBean_OODBBean $readBeanObject
+     * @param RedBean_OODBBean $redBeanObject
      * @param string $className
      */
-	public function __construct($readBeanObject = null, $className = null)
-	{
-		if (!self::$redbeanInstance)
-		{
+  public function __construct($redBeanObject = null, $className = null)
+  {
+    if (!self::$redbeanInstance)
+    {
             self::$redbeanInstance = self::createRedbeanInstance();
-		}
+    }
 
-		if ($readBeanObject && $className)
-		{
-			$this->className = $className;
-			$this->readBeanObject = $readBeanObject;
-		}
-		else
-		{
-			$this->className = get_class($this);
-			$this->readBeanObject = self::$redbeanInstance->dispense( strtolower($this->className) );
-		}
+    if ($redBeanObject && $className)
+    {
+      $this->className = $className;
+      $this->redBeanObject = $redBeanObject;
+    }
+    else
+    {
+      $this->className = get_class($this);
+      $this->redBeanObject = self::$redbeanInstance->dispense( strtolower($this->className) );
+    }
         
-		log_message('debug', "RedbeanModel Class Initialized");
-	}
+    log_message('debug', "RedbeanModel Class Initialized");
+  }
 
     
     /**
@@ -128,7 +128,7 @@ class RedbeanModel
         $username = $CI->db->username;
         $password = $CI->db->password;
 
-		$toolbox = RedBean_Setup::kickstartDev($host, $username, $password);
+    $toolbox = RedBean_Setup::kickstartDev($host, $username, $password);
         return $toolbox->getRedBean();
     }
 
@@ -142,43 +142,43 @@ class RedbeanModel
      * @param integer $id
      * @return Instance of the called class
      */
-	public static function load($id)
-	{
-		$className = get_called_class();
-		$object = self::$redbeanInstance->load( strtolower($className), $id);
-		return new $className($object, $className);
-	}
+  public static function load($id)
+  {
+    $className = get_called_class();
+    $object = self::$redbeanInstance->load( strtolower($className), $id);
+    return new $className($object, $className);
+  }
 
     
     /**
-     * A proxy method to tunnel all set operations to the embedded ReadBean
+     * A proxy method to tunnel all set operations to the embedded RedBean
      * object.
      */
-	public function __set($name, $value)
-	{
-		$this->readBeanObject->$name = $value;
-	}
+  public function __set($name, $value)
+  {
+    $this->redBeanObject->$name = $value;
+  }
 
 
     /**
-     * A proxy method to tunnel all get operations to the embedded ReadBean
+     * A proxy method to tunnel all get operations to the embedded RedBean
      * object.
      */
-	public function __get($name)
-	{
-		return $this->readBeanObject->$name;
-	}
+  public function __get($name)
+  {
+    return $this->redBeanObject->$name;
+  }
 
 
     /**
      * Persists the current object to the database.
      * @return integer  The saved item's database id.
      */
-	public function save()
-	{
-		$this->objectId = self::$redbeanInstance->store( $this->readBeanObject );
-		return $this->objectId;
-	}
+  public function save()
+  {
+    $this->objectId = self::$redbeanInstance->store( $this->redBeanObject );
+    return $this->objectId;
+  }
 
 
 }
