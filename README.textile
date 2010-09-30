@@ -1,0 +1,40 @@
+h1. Codeigniter-RedBean-Plugin
+
+This is a plugin that enables you to use the RedbeanPHP library in your Codeigniter projects. It is espacially usefull for database prototyping.
+
+
+h2. Installation
+
+# *Download* this plugin and extract into your CI project (this will put two files into your @/system/plugins@ folder.
+# *Enable* the @ci_redbean@ plugin by adding it to your autoloading config (@/system/application/config/autoload.php@ line 66.
+# *Configure your database* as you always do in CI.
+# *Create a model* that extends the @RedbeanModel@ class.
+
+
+h2. Usage
+
+To use the new functionality, just create new instances of your models in your controller, add properties to them and call their @save()@ method. The creation / alternation of the database tables aswell as the persistence will be completely handled by redbean. You will never have to touch your phpmyadmin again, because your model's properties will be persisted, even if the models did not have a similar property before.
+
+h2. Example
+
+
+bc.. //system/application/models/Car_model.php
+class Car_model extends RedbeanModel { }
+
+
+bc.. //system/application/controllers/welcome.php
+class Welcome extends Controller
+{
+  function index()
+  {
+    //Creates the table
+    $car = new Car_model();
+    $car->manufacturer = "Opel";
+    $car->model = "Admiral";
+    $car->save();
+    
+    //Transparently alters the existing table
+    $car->tires = 4;
+    $car->save();
+  }
+}
