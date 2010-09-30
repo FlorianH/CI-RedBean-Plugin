@@ -2,6 +2,8 @@ h1. Codeigniter-RedBean-Plugin
 
 This is a plugin that enables you to use the RedbeanPHP library in your Codeigniter projects. It is espacially usefull for database prototyping.
 
+Redbean is available at: "RedBeanPHP.com":http://redbeanphp.com/ while CodeIgniter can be downloaded from "CodeIgniter.com":http://codeigniter.com/ .
+
 
 h2. Installation
 
