@@ -145,6 +145,10 @@ class RedbeanModel
   public static function load($id)
   {
     $className = get_called_class();
+    if (!self::$redbeanInstance)
+    {
+            self::$redbeanInstance = self::createRedbeanInstance();
+    }
     $object = self::$redbeanInstance->load( strtolower($className), $id);
     return new $className($object, $className);
   }
