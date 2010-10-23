@@ -133,7 +133,16 @@ class RedbeanModel
         $username = $CI->db->username;
         $password = $CI->db->password;
 
-        self::$toolbox = RedBean_Setup::kickstartDev($host, $username, $password);
+        
+        if (array_key_exists('frozen', (array)$CI->db) && $CI->db->frozen === True)
+        {
+          self::$toolbox = RedBean_Setup::kickstartFrozen($host, $username, $password);
+        }
+        else 
+        {
+          self::$toolbox = RedBean_Setup::kickstartDev($host, $username, $password);
+        }
+        
         return self::$toolbox->getRedBean();
     }
     

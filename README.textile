@@ -17,6 +17,11 @@ h2. Usage
 
 To use the new functionality, just create new instances of your models in your controller, add properties to them and call their @save()@ method. The creation or alternation of the database tables aswell as the persistence will be completely handled by redbean. You will never have to touch your phpmyadmin again, because your model's properties will be persisted, even if the models did not have a similar property before.
 
+If you want to use this in production, you may want to freeze your database to prevent further changes and to enhance performance. To do that just add the following line to your database config file:
+bc..
+////system/application/config/database.php
+$db['default']['frozen'] = TRUE;
+
 h2. Example
 
 
