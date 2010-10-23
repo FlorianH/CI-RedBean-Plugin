@@ -61,6 +61,11 @@ class RedbeanModel
      */
   protected static $redbeanInstance;
 
+  /**
+   * Holds the static toolbox entity that is used to query the database.
+   * @var RedBean_ToolBox
+   */
+  protected static $toolbox;
 
     /**
      * The name that is used as a database name. If you do not provide this
@@ -128,20 +133,44 @@ class RedbeanModel
         $username = $CI->db->username;
         $password = $CI->db->password;
 
-    $toolbox = RedBean_Setup::kickstartDev($host, $username, $password);
-        return $toolbox->getRedBean();
+        self::$toolbox = RedBean_Setup::kickstartDev($host, $username, $password);
+        return self::$toolbox->getRedBean();
+    }
+    
+    
+    /**
+     * Returns the database adapter. You have to use this when querying
+     * the database in static model methods.
+     *
+     * Use it like this in your Model:
+     * 
+     * class Stuff_model extends RedbeanModel {
+     * 
+     *   static function findMyStuff()
+     *   {
+     *     $db = self::getDb();
+     *     return $db->get("SELECT * FROM 'STUFF'");
+     *   }
+     * }
+     * 
+     * @return RedBean_Adapter_DBAdapter
+     */
+    protected static function getDb()
+    {
+      self::createRedbeanInstance();
+      return self::$toolbox->getDatabaseAdapter();
     }
 
 
-    /**
-     * Returns an instance of the class the static method was called on.
-     * That means if you create a class named "Car" you will recieve an
-     * instance of "Car" when calling "Car::load();" if an item with the
-     * provided id is persisted in the database.
-     * 
-     * @param integer $id
-     * @return Instance of the called class
-     */
+  /**
+    * Returns an instance of the class the static method was called on.
+    * That means if you create a class named "Car" you will recieve an
+    * instance of "Car" when calling "Car::load();" if an item with the
+    * provided id is persisted in the database.
+    * 
+    * @param integer $id
+    * @return Instance of the called class
+    */
   public static function load($id)
   {
     $className = get_called_class();
