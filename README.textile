@@ -19,7 +19,7 @@ To use the new functionality, just create new instances of your models in your c
 
 If you want to use this in production, you may want to freeze your database to prevent further changes and to enhance performance. To do that just add the following line to your database config file:
 
-bc..//system/application/config/database.php
+bc.. //system/application/config/database.php
 $db['default']['frozen'] = TRUE;
 
 h2. Example
