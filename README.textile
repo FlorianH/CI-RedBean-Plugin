@@ -1,3 +1,6 @@
+bc.. Warning: This plugin contains an old version of redbeanphp.
+I currently do not have the time to update it, sorry.
+
 h1. Codeigniter-RedBean-Plugin
 
 This is a plugin that enables you to use the RedbeanPHP library in your Codeigniter projects. It is espacially usefull for database prototyping.
