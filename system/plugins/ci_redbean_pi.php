@@ -113,15 +113,15 @@ class RedbeanModel
       $this->className = get_class($this);
       $this->redBeanObject = self::$redbeanInstance->dispense( strtolower($this->className) );
     }
-        
+
     log_message('debug', "RedbeanModel Class Initialized");
   }
 
-    
+
     /**
      * Creates and returns a redbean db instance using the database settings
      * provided by codeigniter.
-     * 
+     *
      * @return RedBean_OODB
      */
     protected static function createRedbeanInstance()
@@ -133,35 +133,35 @@ class RedbeanModel
         $username = $CI->db->username;
         $password = $CI->db->password;
 
-        
+
         if (array_key_exists('frozen', (array)$CI->db) && $CI->db->frozen === True)
         {
           self::$toolbox = RedBean_Setup::kickstartFrozen($host, $username, $password);
         }
-        else 
+        else
         {
           self::$toolbox = RedBean_Setup::kickstartDev($host, $username, $password);
         }
-        
+
         return self::$toolbox->getRedBean();
     }
-    
-    
+
+
     /**
      * Returns the database adapter. You have to use this when querying
      * the database in static model methods.
      *
      * Use it like this in your Model:
-     * 
+     *
      * class Stuff_model extends RedbeanModel {
-     * 
+     *
      *   static function findMyStuff()
      *   {
      *     $db = self::getDb();
      *     return $db->get("SELECT * FROM 'STUFF'");
      *   }
      * }
-     * 
+     *
      * @return RedBean_Adapter_DBAdapter
      */
     protected static function getDb()
@@ -176,7 +176,7 @@ class RedbeanModel
     * That means if you create a class named "Car" you will recieve an
     * instance of "Car" when calling "Car::load();" if an item with the
     * provided id is persisted in the database.
-    * 
+    *
     * @param integer $id
     * @return Instance of the called class
     */
@@ -191,7 +191,7 @@ class RedbeanModel
     return new $className($object, $className);
   }
 
-    
+
     /**
      * A proxy method to tunnel all set operations to the embedded RedBean
      * object.
